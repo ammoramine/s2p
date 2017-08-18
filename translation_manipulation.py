@@ -44,15 +44,23 @@ def read_tile_pixelized_zone_of_imag_from_config_file_of_main_directory(main_dir
 #image_of_translations=np.zeros([125,45,2])
 def produce_image_of_translations(main_directory,write_translations=False):
 	pointing_txt_path=read_paths_to_pointing_correction_txt_from_directory(main_directory)
-	image_of_translations=np.zeros([125,45,2])
+	pathToMainJson=main_directory+"/config.json"
+	print(main_directory)
+	with open(pathToMainJson,'r') as f:
+		a=json.load(f)
+	nb_row=a['roi']['h']/a['tile_size']
+	nb_col=a['roi']['w']/a['tile_size']
+	col_offset=int(a['roi']['x']/a['tile_size'])
+	row_offset=int(a['roi']['y']/a['tile_size'])
+	image_of_translations=np.zeros([nb_row,nb_col,2])
 	image_of_translations[:]=np.NAN
 	for el in pointing_txt_path:
     		pathToJson=os.path.dirname(os.path.dirname(el))+"/config.json"
     		with open(pathToJson,'r') as f:
     		    a=json.load(f)
     		tile_size=a['tile_size']
-    		col_position=int(a['roi']['x']/tile_size)
-    		row_position=int(a['roi']['y']/tile_size)
+    		col_position=int(a['roi']['x']/tile_size)-col_offset
+    		row_position=int(a['roi']['y']/tile_size)-row_offset
     		#print(col_position);print(row_position)
     		matrix=np.loadtxt(el)
     		#print(matrix[0][2],matrix[1][2])
