@@ -798,15 +798,15 @@ ALL_STEPS = [('initialisation', False),
              ('local-pointing', True),
              ('global-pointing', False),
              ('rectification', True),
-             ('matching', True),
-             ('triangulation', True),
-             ('disparity-to-height', True),
-             ('global-mean-heights', False),
-             ('heights-to-ply', True),
-             ('global-srcwin', False),
-             ('local-dsm-rasterization', True),
-             ('global-dsm-rasterization', False),
-             ('lidar-preprocessor', False)]
+             ('matching', True)]
+             # ('triangulation', True),
+             # ('disparity-to-height', True),
+             # ('global-mean-heights', False),
+             # ('heights-to-ply', True),
+             # ('global-srcwin', False),
+             # ('local-dsm-rasterization', True),
+             # ('global-dsm-rasterization', False),
+             # ('lidar-preprocessor', False)]
 ALL_STEPS = collections.OrderedDict(ALL_STEPS)
 
 

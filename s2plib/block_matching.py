@@ -133,6 +133,15 @@ def compute_disparity_map(im1, im2, disp, mask, algo, disp_min=None,
         common.run('{0} -m {1} -M {2} -il {3} -ir {4} -dl {5} -kl {6}'.format(
                 bm_binary, disp_min, disp_max, im1, im2, disp, mask))
 
+    if algo == 'convexStereoMatching':
+        bm_binary= 'convexStereoMatching'
+        common.run('{0} --im1 {1} --im2 {2}  --dataterm census --tsize {3} --offset {4} --path_to_disparity {5} --threadsMax 100 --method accelerated --Niter 150 --ratioGap 0.00000000001 --zoom 1'.format(bm_binary,im1,im2,(3/2)*(disp_max-disp_min),disp_min-1/4*(disp_max-disp_min),disp))
+
+        # produce the mask: rejected pixels are marked with nan of inf in disp
+        # map
+        common.run('plambda {0} "isfinite" -o {1}'.format(disp, mask))
+
+
     if algo == 'mgm':
         env['MEDIAN'] = '1'
         env['CENSUS_NCC_WIN'] = str(cfg['census_ncc_win'])
